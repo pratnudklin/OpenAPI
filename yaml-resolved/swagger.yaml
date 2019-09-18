@@ -1,0 +1,830 @@
+---
+swagger: "2.0"
+info:
+  description: APIs to manage asset types in the platform
+  version: 1.0.0
+  title: Asset Type Management API
+  contact:
+    name: Teerapan Vichiansakda
+    email: benz@integrationworks.co.th
+tags:
+- name: asset-management-asset-type
+  description: 'API for asset type management '
+- name: asset-management-asset-type-aspect
+  description: API for asset type aspect management
+- name: asset-management-asset-type-measurement
+  description: API for asset type measurement management
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /asset-management/asset-type:
+    get:
+      tags:
+      - asset-management-asset-type
+      summary: Get Asset Type list
+      description: Inquiry list of asset types with sorting option. The criteria of sort will be by asset-type name, updated_at.
+      operationId: Get All Asset Type
+      parameters:
+      - name: order
+        in: query
+        description: Order of sorting. This sort will be by asset-type name, updated_at
+        required: false
+        type: string
+        default: asc
+        enum:
+        - asc
+        - desc
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AssetTypeCompact'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+    post:
+      tags:
+      - asset-management-asset-type
+      summary: Create new Asset Type
+      description: Create a new Asset Type
+      operationId: createAssetType
+      consumes:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AssetType'
+      responses:
+        201:
+          description: Successfully created
+          schema:
+            $ref: '#/definitions/AssetType'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+  /asset-management/asset-type/{assetTypeId}:
+    get:
+      tags:
+      - asset-management-asset-type
+      summary: Get Asset Type Attribute
+      description: Inquiry asset type by id basic attribute
+      operationId: getAssetTypeById
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Status 200
+          schema:
+            $ref: '#/definitions/AssetType'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        404:
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          examples:
+            application/json: "{\n\t\"status\": \"500\",\n\t\"code\": \"SV0001\",\n\t\"message\": \"Unknow error has occurred\",\n\t\"errors\": []\n}"
+          schema:
+            $ref: '#/definitions/ApiError'
+    put:
+      tags:
+      - asset-management-asset-type
+      summary: Update Asset Type Attribute and basic information
+      description: Update Asset Type Attribute and basic information
+      operationId: updateAssetType
+      consumes: []
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AssetTypeAttribute'
+      responses:
+        200:
+          description: Status 200
+          schema:
+            $ref: '#/definitions/AssetTypeAttribute'
+        400:
+          description: Request body is invalid or constraints violation
+          schema:
+            $ref: '#/definitions/ApiError'
+        404:
+          description: Asset Type not found
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+    delete:
+      tags:
+      - asset-management-asset-type
+      summary: Delete Asset Type
+      description: Delete asset type and all data relate to asset-type, such as measurements and aspects. This delete is not allowed if there're already asset created from this asset type.
+      operationId: deleteAssetType
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: Asset Type either successfully deleted or does not exist
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+        403:
+          description: Not allowed
+        409:
+          description: Could not update or delete asset-type
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+  /asset-management/asset-type/{assetTypeId}/measurements:
+    get:
+      tags:
+      - asset-management-asset-type-measurement
+      summary: Get Asset Type measurements
+      description: Inquiry asset type measurement with sorting option. The criteria of sort will be by created_at, measurement name.
+      operationId: getAssetTypeMeasurements
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: order
+        in: query
+        description: Ordering of sorting. The ordering will be order by created_at, measurement name field.
+        required: false
+        type: string
+        default: asc
+        enum:
+        - asc
+        - desc
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AssetTypeMeasurement'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        404:
+          description: Asset type was not found
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+    post:
+      tags:
+      - asset-management-asset-type-measurement
+      summary: Create / Add Asset Type measurements
+      description: Create or add asset type measurements
+      operationId: createAssetTypeMeasurement
+      consumes: []
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AssetTypeMeasurement'
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/AssetTypeMeasurement'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+  /asset-management/asset-type/{assetTypeId}/measurements/{measurementId}:
+    put:
+      tags:
+      - asset-management-asset-type-measurement
+      summary: Update asset type measurement
+      description: Update asset type measurement
+      operationId: updateAssetTypeMeasurements
+      consumes: []
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: measurementId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AssetTypeMeasurement'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/AssetTypeMeasurement'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+    delete:
+      tags:
+      - asset-management-asset-type-measurement
+      summary: Delete asset type measurement
+      description: Delete asset type measurement
+      operationId: deleteAssetTypeMeasurement
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: measurementId
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: Asset measurement either successfully deleted or does not exist
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+  /asset-management/asset-type/{assetTypeId}/aspects:
+    get:
+      tags:
+      - asset-management-asset-type-aspect
+      summary: Get Asset Type Aspects
+      description: Inquiry asset type aspect with sorting option. The criteria of sort will be by aspect name.
+      operationId: getAssetTypeAspects
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: order
+        in: query
+        description: Ordering of sorting. The ordering will be order by created_at, aspect name.
+        required: false
+        type: string
+        default: asc
+        enum:
+        - asc
+        - desc
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AssetTypeAspect'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        404:
+          description: Asset type was not found
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+    post:
+      tags:
+      - asset-management-asset-type-aspect
+      summary: Create Asset Type Aspects
+      description: Create new asset type aspects
+      operationId: createAssetTypeAspects
+      consumes: []
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AssetTypeAspect'
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/AssetTypeAspect'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+  /asset-management/asset-type/{assetTypeId}/aspects/{aspectId}:
+    put:
+      tags:
+      - asset-management-asset-type-aspect
+      summary: Update asset type aspect
+      description: Update asset type aspect
+      operationId: updateAssetTypeAspects
+      consumes: []
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: aspectId
+        in: path
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AssetTypeAspect'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/AssetTypeAspect'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+    delete:
+      tags:
+      - asset-management-asset-type-aspect
+      summary: Delete asset type aspect
+      description: Delete asset type aspect
+      operationId: deleteAssetTypeAspect
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: aspectId
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: Asset type aspect either successfully delete or not existed
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+  /asset-management/asset-type/{assetTypeId}/measurements/{measurementId}/listAspect:
+    get:
+      tags:
+      - asset-management-asset-type-measurement
+      summary: Get list of aspect that use the measurement
+      description: Get list of aspect that use the meaturement
+      operationId: getAspectListByMeasurement
+      parameters:
+      - name: assetTypeId
+        in: path
+        required: true
+        type: string
+      - name: measurementId
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/MeasurementAspectGroup'
+        400:
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ApiError'
+        401:
+          description: Unauthorized request
+          schema:
+            $ref: '#/definitions/ApiError'
+        403:
+          description: Not allowed
+          schema:
+            $ref: '#/definitions/ApiError'
+        404:
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Server could not process request
+          schema:
+            $ref: '#/definitions/ApiError'
+definitions:
+  AssetType:
+    type: object
+    properties:
+      id:
+        type: string
+        example: e0859691-818e-48f8-aa07-1cbd3982dab9
+        description: uuid of asset type
+      name:
+        type: string
+        example: Windmil
+        description: Display name of asset type
+        minLength: 3
+        maxLength: 255
+      description:
+        type: string
+        description: Description of asset type
+        minLength: 0
+        maxLength: 255
+      industries:
+        type: array
+        items:
+          $ref: '#/definitions/Industry'
+      photo:
+        type: string
+        description: Url of asset type photo
+        default: should be default with octobus logo url
+      attributes:
+        type: array
+        description: Object represent of user-defined asset type attribute in key-value format for asset type that can't be override
+        items:
+          $ref: '#/definitions/Attribute'
+      defaultAttributes:
+        type: array
+        description: Object represent of a List of key-defaultValue for asset type
+        items:
+          $ref: '#/definitions/AdditionalAttribute'
+      measurements:
+        type: array
+        description: List of measurement belong to this asset type
+        items:
+          $ref: '#/definitions/AssetTypeMeasurement'
+      aspects:
+        type: array
+        description: List of aspects belong to this asset type
+        items:
+          $ref: '#/definitions/AssetTypeAspect'
+    description: 'Asset type '
+  AssetTypeMeasurement:
+    type: object
+    required:
+    - assetType
+    - dataType
+    - uom
+    properties:
+      id:
+        type: string
+        example: 48a78187-c687-4a77-9d43-5a92e9ea2f02
+        description: uuid of asset measurement
+      name:
+        type: string
+        example: speed
+        description: display name of asset measurement
+        minLength: 1
+        maxLength: 255
+      assetType:
+        $ref: '#/definitions/AssetTypeCompact'
+      description:
+        type: string
+        example: some descriptive text
+        description: description of asset measurement
+        minLength: 0
+        maxLength: 500
+      precision:
+        type: number
+        example: 0.0
+        description: precision of measurement. Required if the dataType are numbers
+      dataType:
+        $ref: '#/definitions/DataType'
+      uom:
+        $ref: '#/definitions/MeasurementUnit'
+      formula:
+        type: object
+        description: TBD
+        properties: {}
+    description: Asset type measurement data object representative
+    example: uuid of measurement
+  AssetTypeAspect:
+    type: object
+    required:
+    - assetType
+    - name
+    properties:
+      id:
+        type: string
+        description: uuid of asset type aspect
+      assetType:
+        $ref: '#/definitions/AssetTypeCompact'
+      name:
+        type: string
+        example: Windmil Condition
+        description: display name for aspect
+      description:
+        type: string
+        description: free text
+      measurements:
+        type: array
+        items:
+          $ref: '#/definitions/AssetTypeMeasurement'
+    description: Asset aspect (group of measurement) data representative
+  AssetTypeAttribute:
+    type: object
+    properties:
+      id:
+        type: string
+        example: e0859691-818e-48f8-aa07-1cbd3982dab9
+        description: uuid of asset type
+      name:
+        type: string
+        example: Windmil
+        description: Display name of asset type
+        minLength: 3
+        maxLength: 255
+      description:
+        type: string
+        description: Description of asset type
+        minLength: 0
+        maxLength: 255
+      industry:
+        type: array
+        items:
+          $ref: '#/definitions/Industry'
+      photoUrl:
+        type: string
+        description: Url of asset type photo
+        default: should be default with octobus logo url
+      attributes:
+        type: array
+        description: Object represent of user-defined asset type attribute in key-value format for asset type that can’t be override
+        items:
+          $ref: '#/definitions/Attribute'
+      defaultAttributes:
+        type: array
+        description: Object represent of a List of key-defaultValue for asset type
+        items:
+          $ref: '#/definitions/AdditionalAttribute'
+    description: Asset type basic and information attribute
+  AssetTypeCompact:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        example: 7e733fe1-2a16-4b2d-89b0-2df061cc779a
+        description: UUID of asset type
+      name:
+        type: string
+        example: Windmil
+        description: Display name of asset type
+        minLength: 3
+        maxLength: 255
+      photoUrl:
+        type: string
+        example: iworks_windmil.jpg
+        description: Asset type photo url
+    description: Compacted version of data model of Asset Tyoe individually
+  Industry:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        example: 710a7abd-7a6e-4280-8558-1db10a687c14
+        description: uuid of pre-defined industry
+      name:
+        type: string
+        example: Power
+        description: Display name of industry
+      color:
+        type: string
+        description: Color code in hex format
+        default: '#fc6b03'
+    description: Master data of Industry in the platform
+  DataType:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        example: 35dbf384-bf53-48ef-a9f3-e9435c8e534f
+        description: uuid of pre-defined data_type
+      name:
+        type: string
+        example: Int
+        description: display name of data_type
+    description: 'Master data of Data Type used in the platform '
+  MeasurementUnit:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        example: 35dbf384-bf53-48ef-a9f3-e9435c8e534f
+        description: uuid of pre-defined Unite of measurement
+      name:
+        type: string
+        example: cm
+        description: display name of uom
+      description:
+        type: string
+        example: centimeters
+        description: description of uom
+    description: Unit of measurement master data
+  AdditionalAttribute:
+    type: object
+    required:
+    - key
+    properties:
+      key:
+        type: string
+        example: foo
+        description: Additional attribute key
+      defaultValue:
+        type: string
+        example: bar
+        description: Default value of additional attribute
+    description: Additional attribute that user can pre-defined and set a default value
+  MeasurementAspectGroup:
+    type: object
+    required:
+    - count
+    properties:
+      count:
+        type: integer
+        description: Result of total aspect that currently use the measurement
+      aspects:
+        type: array
+        description: List of aspects that currently use the measurement
+        items:
+          $ref: '#/definitions/AssetTypeAspectCompact'
+        minItems: 0
+  AssetTypeAspectCompact:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        example: 7e733fe1-2a16-4b2d-89b0-2df061cc779a
+        description: UUID of asset type
+      name:
+        type: string
+        example: Windmil
+        description: Display name of asset type
+        minLength: 3
+        maxLength: 255
+    description: Compacted version of data model of Asset Type Aspect
+  ApiError:
+    type: object
+    properties:
+      status:
+        type: number
+        description: Http status from the request
+      code:
+        type: string
+        example: BUx0001
+        description: Platform specify error code
+      message:
+        type: string
+        example: Error has occurred
+        description: Error messages
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/ApiError'
+    description: Standard format of Error Format in the platform
+  Attribute:
+    type: object
+    required:
+    - key
+    properties:
+      key:
+        type: string
+        description: Attribute name for key
+      value:
+        type: string
+        description: Attribute value for key name
+    description: Represents an attribute of an asset type.
