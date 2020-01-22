@@ -1,0 +1,630 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "BOM Management",
+        "version": "1.0.0",
+        "description": "Business partner and Organization Unit Management",
+        "contact": {
+            "name": "Prat Nudklin",
+            "email": "prat.nudklin@integrationworks.co.th"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/bom-management/partner/{partnerId}": {
+            "delete": {
+                "responses": {
+                    "204": {
+                        "description": "Successful response."
+                    }
+                },
+                "operationId": "deleteProfile",
+                "summary": "Delete a BusinessPartner",
+                "description": "Deletes an existing `BusinessPartnerProfile`."
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "description": "A unique identifier for a `BusinessPartner`.",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/generalInfo": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "get successful",
+                        "schema": {
+                            "$ref": "#/definitions/GeneralInfo"
+                        }
+                    }
+                },
+                "operationId": "getGeneralInfo"
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/GeneralInfo"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update successful"
+                    }
+                },
+                "operationId": "updateGeneralInfo"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/GeneralInfo"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "create general successful",
+                        "schema": {
+                            "$ref": "#/definitions/GeneralInfo"
+                        }
+                    }
+                },
+                "operationId": "createGeneralInfo"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/contactInfo": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "get successful",
+                        "schema": {
+                            "$ref": "#/definitions/ContactInfo"
+                        }
+                    }
+                },
+                "operationId": "getContactInfo"
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ContactInfo"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update successful"
+                    }
+                },
+                "operationId": "updateContactInfo"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ContactInfo"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "create successful",
+                        "schema": {
+                            "$ref": "#/definitions/ContactInfo"
+                        }
+                    }
+                },
+                "operationId": "createContactInfo"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/regionalInfo": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "get successful",
+                        "schema": {
+                            "$ref": "#/definitions/RegionalInfo"
+                        }
+                    }
+                },
+                "operationId": "getRegionalInfo"
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/RegionalInfo"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update successful"
+                    }
+                },
+                "operationId": "updateRegionalInfo"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/RegionalInfo"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "create successful",
+                        "schema": {
+                            "$ref": "#/definitions/RegionalInfo"
+                        }
+                    }
+                },
+                "operationId": "createRegionalInfo"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/address": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "get successful",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Address"
+                            }
+                        }
+                    }
+                },
+                "operationId": "getAddresses"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "create successful",
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        }
+                    }
+                },
+                "operationId": "createAddress"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/address/{addressId}": {
+            "put": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update successful"
+                    }
+                },
+                "operationId": "updateAddress"
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "delete successful"
+                    }
+                },
+                "operationId": "deleteAddress"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "addressId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/contactPerson": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "get successful",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContactPerson"
+                            }
+                        }
+                    }
+                },
+                "operationId": "getContactPersons"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ContactPerson"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "create successful",
+                        "schema": {
+                            "$ref": "#/definitions/ContactPerson"
+                        }
+                    }
+                },
+                "operationId": "createContactPerson"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/bom-management/partner/{partnerId}/contactPerson/{contactPersonId}": {
+            "put": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ContactPerson"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update successful"
+                    }
+                },
+                "operationId": "updateContactPerson"
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "delete successful"
+                    }
+                },
+                "operationId": "deleteContactPerson"
+            },
+            "parameters": [
+                {
+                    "name": "partnerId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "contactPersonId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "ContactPerson": {
+            "description": "",
+            "required": [
+                "email",
+                "bp_id"
+            ],
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "description": "",
+                    "type": "string"
+                },
+                "lastName": {
+                    "description": "",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "",
+                    "type": "string"
+                },
+                "telephone": {
+                    "description": "",
+                    "type": "string"
+                },
+                "position": {
+                    "description": "",
+                    "type": "string"
+                },
+                "contact_id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "bp_id": {
+                    "description": "",
+                    "type": "string"
+                }
+            }
+        },
+        "Address": {
+            "description": "Address",
+            "required": [
+                "city",
+                "country",
+                "district",
+                "name",
+                "postCode",
+                "address1",
+                "bp_id"
+            ],
+            "type": "object",
+            "properties": {
+                "address1": {
+                    "description": "",
+                    "type": "string"
+                },
+                "address2": {
+                    "description": "",
+                    "type": "string"
+                },
+                "address3": {
+                    "description": "",
+                    "type": "string"
+                },
+                "country": {
+                    "description": "",
+                    "type": "string"
+                },
+                "postCode": {
+                    "description": "",
+                    "type": "string"
+                },
+                "district": {
+                    "description": "",
+                    "type": "string"
+                },
+                "city": {
+                    "description": "",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "",
+                    "type": "string"
+                },
+                "bp_id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "address_id": {
+                    "description": "",
+                    "type": "string"
+                }
+            }
+        },
+        "GeneralInfo": {
+            "description": "",
+            "required": [
+                "bp_id",
+                "displayName"
+            ],
+            "type": "object",
+            "properties": {
+                "bp_id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "displayName": {
+                    "description": "",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "",
+                    "type": "string"
+                },
+                "Industrys": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Industry"
+                    }
+                }
+            }
+        },
+        "ContactInfo": {
+            "description": "",
+            "required": [
+                "bp_ip"
+            ],
+            "type": "object",
+            "properties": {
+                "bp_ip": {
+                    "description": "",
+                    "type": "string"
+                },
+                "mail": {
+                    "description": "",
+                    "type": "string"
+                },
+                "telephone": {
+                    "description": "",
+                    "type": "string"
+                },
+                "web": {
+                    "description": "",
+                    "type": "string"
+                },
+                "socialLinks": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SocialLink"
+                    }
+                }
+            }
+        },
+        "RegionalInfo": {
+            "description": "",
+            "required": [
+                "bp_id",
+                "timeZone"
+            ],
+            "type": "object",
+            "properties": {
+                "bp_id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "timeZone": {
+                    "description": "",
+                    "type": "string"
+                },
+                "lang": {
+                    "description": "",
+                    "type": "string"
+                },
+                "dateFormat": {
+                    "description": "",
+                    "type": "string"
+                },
+                "timeFormat": {
+                    "description": "",
+                    "type": "string"
+                },
+                "numberFormat": {
+                    "description": "",
+                    "type": "string"
+                }
+            }
+        },
+        "SocialLink": {
+            "description": "",
+            "required": [
+                "bp_id",
+                "url",
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "bp_id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "",
+                    "type": "string"
+                }
+            }
+        },
+        "Industry": {
+            "description": "",
+            "required": [
+                "industry_name",
+                "industry_id"
+            ],
+            "type": "object",
+            "properties": {
+                "industry_id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "industry_name": {
+                    "description": "",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
